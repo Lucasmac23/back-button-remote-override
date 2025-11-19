@@ -7,4 +7,13 @@ export class BackButtonOverrideWeb extends WebPlugin implements BackButtonOverri
     console.log('ECHO', options);
     return options;
   }
+
+  enableOverride(): any{
+    console.warn("not implemented on web");
+    return
+  }
+  disableOverride(): any{
+    console.warn("not implemented on web");
+    return
+  }
 }
