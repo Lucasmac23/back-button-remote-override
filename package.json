@@ -1,6 +1,6 @@
 {
   "name": "back-button-remote-override",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "overrides the back button functionality on the remote. Click twice to leave",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
