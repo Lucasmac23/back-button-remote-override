@@ -16,6 +16,9 @@ npx cap sync
 * [`echo(...)`](#echo)
 * [`enableOverride()`](#enableoverride)
 * [`disableOverride()`](#disableoverride)
+* [`addListener('backButtonPressed', ...)`](#addlistenerbackbuttonpressed-)
+* [`homeBackPressed()`](#homebackpressed)
+* [`exitToHomeScreen()`](#exittohomescreen)
 
 </docgen-index>
 
@@ -51,6 +54,50 @@ enableOverride() => Promise<void>
 ```typescript
 disableOverride() => Promise<void>
 ```
+
+--------------------
+
+
+### addListener('backButtonPressed', ...)
+
+```typescript
+addListener(eventName: 'backButtonPressed', listenerFunc: () => void) => Promise<{ remove: () => void; }>
+```
+
+Fired whenever the Android hardware back button is pressed.
+
+| Param              | Type                             |
+| ------------------ | -------------------------------- |
+| **`eventName`**    | <code>'backButtonPressed'</code> |
+| **`listenerFunc`** | <code>() =&gt; void</code>       |
+
+**Returns:** <code>Promise&lt;{ remove: () =&gt; void; }&gt;</code>
+
+--------------------
+
+
+### homeBackPressed()
+
+```typescript
+homeBackPressed() => Promise<{ handled: boolean; }>
+```
+
+Trigger the "double press to exit" logic from Angular.
+
+**Returns:** <code>Promise&lt;{ handled: boolean; }&gt;</code>
+
+--------------------
+
+
+### exitToHomeScreen()
+
+```typescript
+exitToHomeScreen() => Promise<{ handled: boolean; }>
+```
+
+Allows for exiting the app to the home screen (emulated from intents)
+
+**Returns:** <code>Promise&lt;{ handled: boolean; }&gt;</code>
 
 --------------------
 

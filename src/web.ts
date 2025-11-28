@@ -8,12 +8,27 @@ export class BackButtonOverrideWeb extends WebPlugin implements BackButtonOverri
     return options;
   }
 
-  enableOverride(): any{
-    console.warn("not implemented on web");
-    return
+  enableOverride(): any {
+    console.warn('not implemented on web');
+    return;
   }
-  disableOverride(): any{
-    console.warn("not implemented on web");
-    return
+  disableOverride(): any {
+    console.warn('not implemented on web');
+    return;
+  }
+
+  addListener(): any {
+    console.log('not implemented on web');
+    return null as any;
+  }
+
+  homeBackPressed(): any {
+    console.log('not implemented on web');
+    return;
+  }
+
+  exitToHomeScreen(): any {
+    console.log('not implemented on web');
+    return;
   }
 }

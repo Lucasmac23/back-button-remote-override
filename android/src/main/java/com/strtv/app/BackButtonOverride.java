@@ -1,5 +1,6 @@
 package com.strtv.app;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.widget.Toast;
@@ -10,53 +11,72 @@ public class BackButtonOverride {
 
     private boolean overrideEnabled = false;
     private boolean backPressedOnce = false;
-    private final Handler handler = new Handler(Looper.getMainLooper());
+    private final Handler mainHandler = new Handler(Looper.getMainLooper());
 
-    // --------------------------
-    // Echo for testing
-    // --------------------------
     public String echo(String value) {
         Logger.info("Echo", value);
         return value;
     }
 
-    // --------------------------
-    // Enable back button override
-    // --------------------------
     public void enableOverride() {
         overrideEnabled = true;
     }
 
-    // --------------------------
-    // Disable back button override
-    // --------------------------
     public void disableOverride() {
         overrideEnabled = false;
     }
 
-    // --------------------------
-    // Called from Plugin.handleOnBackPressed()
-    // --------------------------
-    public boolean onBackPressed(Plugin plugin) {
+    /**
+     * Simulate pressing the Home button (send app to background).
+     */
+    public void exitToHomeScreen(Plugin plugin) {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        plugin.getActivity().startActivity(intent);
+    }
+
+
+    /**
+     * Logic shared by both hardware back and JS-triggered back.
+     */
+    private boolean handleBack(Plugin plugin, Boolean isJS) {
         if (!overrideEnabled) {
-            return false; // plugin should call super.handleOnBackPressed()
+            return false;
         }
 
         if (backPressedOnce) {
+            this.exitToHomeScreen(plugin);
             return false; // second press → exit
         }
+        
+        if(isJS){
+            backPressedOnce = true;
 
-        backPressedOnce = true;
+            // Show toast
+            mainHandler.post(() ->
+                Toast.makeText(plugin.getContext(), "Click back again to exit STR-TV", Toast.LENGTH_SHORT).show()
+            );
 
-        // Show toast
-        Handler mainHandler = new Handler(Looper.getMainLooper());
-        mainHandler.post(() -> {
-            Toast.makeText(plugin.getContext(), "Click back again to exit STR-TV", Toast.LENGTH_SHORT).show();
-        });
+            // Reset flag after 2 seconds
+            mainHandler.postDelayed(() -> backPressedOnce = false, 2000);
+        }
+        
 
-        // Reset after 2 seconds
-        mainHandler.postDelayed(() -> backPressedOnce = false, 2000);
+        return true; // handled
+    }
 
-        return true; // intercepted first press
+    /**
+     * Called from plugin's hardware back handler
+     */
+    public boolean onBackPressed(Plugin plugin) {
+        return handleBack(plugin, false);
+    }
+
+    /**
+     * Called from JS (homeBackPressed)
+     */
+    public boolean handleBackPressFromJS(Plugin plugin) {
+        return handleBack(plugin, true);
     }
 }
