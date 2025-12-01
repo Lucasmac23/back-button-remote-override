@@ -34,6 +34,8 @@ public class BackButtonOverride {
         intent.addCategory(Intent.CATEGORY_HOME);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         plugin.getActivity().startActivity(intent);
+        Toast.makeText(plugin.getContext(), "Click the STR-TV icon to return anytime.", Toast.LENGTH_LONG).show();
+
     }
 
 
@@ -77,6 +79,6 @@ public class BackButtonOverride {
      * Called from JS (homeBackPressed)
      */
     public boolean handleBackPressFromJS(Plugin plugin) {
-        return handleBack(plugin, true);
+         return handleBack(plugin, true);
     }
 }

@@ -69,16 +69,6 @@ public class BackButtonOverridePlugin extends Plugin {
 
                     // 🔥 Emit event to Angular webview
                     notifyListeners("backButtonPressed", new JSObject());
-
-                    boolean handled = implementation.onBackPressed(BackButtonOverridePlugin.this);
-
-                    // if (!handled) {
-                    //     // Allow system behavior
-                    //     setEnabled(false);
-                    //     dispatcher.onBackPressed();
-
-                    //     setEnabled(true);
-                    // }
                 }
             }
         );
